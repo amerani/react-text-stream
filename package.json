@@ -1,17 +1,33 @@
 {
   "name": "react-event-stream",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "A React component for streaming text using text/event-stream",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/ReactEventStream.umd.cjs",
+  "module": "dist/ReactEventStream.js",
+  "exports": {
+    ".": {
+      "import": "./dist/ReactEventStream.js",
+      "require": "./dist/ReactEventStream.umd.cjs"
+    }
   },
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "author": "Alek Merani",
+  "license": "MIT",
   "dependencies": {
-    "react": "^19.1.1"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
     "vite": "^7.1.4",
     "vitest": "^3.2.4"
   }
