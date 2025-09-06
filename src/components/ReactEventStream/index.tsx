@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ReactEventStream: React.ComponentType = () => {
-    return 'ReactEventStream'
+    return 'ReactEventStream-reloaded'
 }
 
 export default ReactEventStream
