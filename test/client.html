@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE Test Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .word-display {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .stat {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SSE Test Client</h1>
+        <p>This client connects to the SSE server and displays lorem ipsum words as they are streamed.</p>
+        
+        <div class="controls">
+            <button id="connectBtn">Connect</button>
+            <button id="disconnectBtn" disabled>Disconnect</button>
+            <button id="clearBtn">Clear</button>
+        </div>
+
+        <div id="status" class="status disconnected">Disconnected</div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="wordCount">0</div>
+                <div>Words Received</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="totalChars">0</div>
+                <div>Total Characters</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="avgWordLength">0</div>
+                <div>Avg Word Length</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="connectionTime">0s</div>
+                <div>Connection Time</div>
+            </div>
+        </div>
+
+        <div class="word-display" id="wordDisplay"></div>
+    </div>
+
+    <script>
+        let eventSource = null;
+        let wordCount = 0;
+        let totalChars = 0;
+        let startTime = null;
+        let connectionInterval = null;
+
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const status = document.getElementById('status');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const wordCountEl = document.getElementById('wordCount');
+        const totalCharsEl = document.getElementById('totalChars');
+        const avgWordLengthEl = document.getElementById('avgWordLength');
+        const connectionTimeEl = document.getElementById('connectionTime');
+
+        function updateStats() {
+            wordCountEl.textContent = wordCount;
+            totalCharsEl.textContent = totalChars;
+            avgWordLengthEl.textContent = wordCount > 0 ? (totalChars / wordCount).toFixed(1) : '0';
+            
+            if (startTime) {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                connectionTimeEl.textContent = `${elapsed}s`;
+            }
+        }
+
+        function connect() {
+            if (eventSource) return;
+
+            eventSource = new EventSource('http://localhost:3001/sse');
+            startTime = Date.now();
+
+            eventSource.onopen = function(event) {
+                status.textContent = 'Connected';
+                status.className = 'status connected';
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                console.log('SSE connection opened');
+            };
+
+            eventSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.type === 'connected') {
+                        console.log('Server message:', data.message);
+                    } else if (data.type === 'chunk') {
+                        wordCount++;
+                        totalChars += data.wordLength;
+                        
+                        // Add word to display
+                        wordDisplay.textContent += data.word + ' ';
+                        
+                        // Keep only last 500 characters visible
+                        if (wordDisplay.textContent.length > 500) {
+                            wordDisplay.textContent = wordDisplay.textContent.slice(-500);
+                        }
+                        
+                        // Scroll to bottom
+                        wordDisplay.scrollTop = wordDisplay.scrollHeight;
+                        
+                        updateStats();
+                        
+                        // Log every 50th word
+                        if (wordCount % 50 === 0) {
+                            console.log(`Received ${wordCount} words, current: "${data.word}" (${data.wordLength} chars)`);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error parsing SSE data:', error);
+                }
+            };
+
+            eventSource.onerror = function(event) {
+                console.error('SSE error:', event);
+                status.textContent = 'Connection Error';
+                status.className = 'status disconnected';
+                disconnect();
+            };
+
+            // Update connection time every second
+            connectionInterval = setInterval(updateStats, 1000);
+        }
+
+        function disconnect() {
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+            
+            if (connectionInterval) {
+                clearInterval(connectionInterval);
+                connectionInterval = null;
+            }
+            
+            status.textContent = 'Disconnected';
+            status.className = 'status disconnected';
+            connectBtn.disabled = false;
+            disconnectBtn.disabled = true;
+            startTime = null;
+            updateStats();
+        }
+
+        function clear() {
+            wordDisplay.textContent = '';
+            wordCount = 0;
+            totalChars = 0;
+            updateStats();
+        }
+
+        connectBtn.addEventListener('click', connect);
+        disconnectBtn.addEventListener('click', disconnect);
+        clearBtn.addEventListener('click', clear);
+
+        // Auto-connect on page load
+        window.addEventListener('load', () => {
+            setTimeout(connect, 1000);
+        });
+    </script>
+</body>
+</html>
