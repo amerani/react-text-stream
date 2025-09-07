@@ -11,11 +11,18 @@ export default defineConfig({
         port: 3000,
         host: '127.0.0.1',
     },
+    css: {
+        modules: {
+            localsConvention: 'camelCase',
+            globalModulePaths: [new RegExp(resolve(__dirname, 'src/global.d.ts'))],
+        }
+    },
     build: {
         lib: {
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'react-event-stream',
             fileName: 'ReactEventStream',
+            cssFileName: 'ReactEventStream.styles',
             formats: ['es', 'cjs', 'umd'],
         },
         rollupOptions: {
