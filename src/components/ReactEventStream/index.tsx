@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
-import styles from './style.module.css';
 import useEventStream from '../../useEventStream';
-
 
 interface ReactEventStreamProps<T> {
     url: string;
@@ -9,19 +7,17 @@ interface ReactEventStreamProps<T> {
     render: (stream: string) => React.ReactNode;
 }
 
-const ReactEventStream: React.FC<ReactEventStreamProps<any>> = ({ url, onEvent, render }) => {
-    const stream = useEventStream<any>(
+function ReactEventStream<T>({ 
+    url, 
+    onEvent, 
+    render 
+}: ReactEventStreamProps<T>) {
+    const stream = useEventStream<T>(
         url, 
-        useCallback((event): string|undefined => {    
-            return onEvent(event);
-        }, []),
+        useCallback(onEvent, [onEvent]),
     )!;
 
-    return (
-        <div className={styles.eventStream}>
-            {stream?.length > 0 ? render(stream) : 'Generating...'}
-        </div>
-    )
+    return render(stream);
 }
 
 export default ReactEventStream;

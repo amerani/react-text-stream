@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { ReactEventStream, useEventStream } from './dist/ReactEventStream'
-import './dist/ReactEventStream.styles.css'
 import './terminal-styles.css'
 
 const HookEventStream: React.ComponentType = () => {
