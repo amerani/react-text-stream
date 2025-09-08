@@ -2,32 +2,24 @@ import React, { useCallback } from 'react';
 import styles from './style.module.css';
 import useEventStream from '../../useEventStream';
 
-interface EventData {
-  type: string;
-  word: string;
-  wordLength: number;
-  index: number;
-  totalWords: number;
-  timestamp: string;
+
+interface ReactEventStreamProps<T> {
+    url: string;
+    onEvent: (event: T) => string|undefined;
+    render: (stream: string) => React.ReactNode;
 }
-const ReactEventStream: React.ComponentType = () => {
-    const stream = useEventStream(
-        'http://localhost:3001/sse', 
-        useCallback((event: EventData): string|undefined => {
-            switch (event.type) {
-                case 'chunk':
-                    return `${event.word} `;
-                case 'completed':
-                    return undefined;
-                default:
-                    return '';
-            }
+
+const ReactEventStream: React.FC<ReactEventStreamProps<any>> = ({ url, onEvent, render }) => {
+    const stream = useEventStream<any>(
+        url, 
+        useCallback((event): string|undefined => {    
+            return onEvent(event);
         }, []),
     )!;
 
     return (
         <div className={styles.eventStream}>
-            {stream?.length > 0 ? String(stream) : 'Generating...'}
+            {stream?.length > 0 ? render(stream) : 'Generating...'}
         </div>
     )
 }
