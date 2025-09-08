@@ -11,11 +11,11 @@ interface EventData {
   timestamp: string;
 }
 const ReactEventStream: React.ComponentType = () => {
-    const stream = useEventStream('http://localhost:3001/sse', (event: EventData) => event.word);
+    const stream = useEventStream('http://localhost:3001/sse', (event: EventData) => event.word)!;
 
     return (
         <div className={styles.eventStream}>
-            {stream.length > 0 ? stream : 'Generating...'}
+            {stream?.length > 0 ? String(stream) : 'Generating...'}
         </div>
     )
 }

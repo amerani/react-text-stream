@@ -1,17 +1,25 @@
 import { useState, useSyncExternalStore, useEffect, useMemo } from 'react';
 import { EventStore } from './EventStore';
 
-function useEventStream<P>(url: string, parser: (event: P) => string) {
-    const eventStore = useMemo(() => EventStore<P,string>(url, parser), [url]);
+interface Streamable {
+    concat(other: Streamable): Streamable;
+    length: number;
+}
 
-    const [stream, setStream] = useState('');   
+function useEventStream<P>(url: string, parser: (event: P) => Streamable) {
+    const eventStore = useMemo(() => EventStore<P,Streamable>(url, parser), [url]);
+
+    const [stream, setStream] = useState<Streamable>();   
     
     const sseChunk = useSyncExternalStore(eventStore.subscribe, eventStore.getSnapshot);
 
     useEffect(() => {
         if (sseChunk !== undefined) {
             setStream((curStream) => {
-                return curStream.concat(' ', sseChunk);
+                if (!curStream) {
+                    return sseChunk;
+                }
+                return curStream?.concat(sseChunk);
             })
         }
     }, [sseChunk]);
