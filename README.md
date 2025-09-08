@@ -10,12 +10,17 @@ npm install react-event-stream
 
 ## Features
 
-- 🚀 **React Component**: Easy-to-use `ReactEventStream` component
-- 🎣 **Custom Hook**: `useEventStream` hook for custom implementations
-- 📡 **Server-Sent Events**: Built on native EventSource API
+- 🚀 **React Component**: Exports an easy-to-use `ReactEventStream` component
+- 🎣 **Custom Hook**: Exports a custom `useEventStream` hook for complex use-cases
+- ⚛️ **React Hooks**: Built with the native hooks like `useSyncExternalStore` and `useMemo` for optimal rendering performance
+- 📡 **Server-Sent Events**: Built on native [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) Web API
 - 🔄 **Auto-retry**: Automatic reconnection with retry logic
 - 📦 **TypeScript**: Full TypeScript support
 - 🎨 **Customizable**: Flexible rendering and event handling
+
+## Demo
+
+![Demo of rendering text event stream](./demo.gif)
 
 ## Usage
 
