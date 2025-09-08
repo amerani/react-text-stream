@@ -15,9 +15,7 @@ const ReactEventStream: React.ComponentType = () => {
 
     return (
         <div className={styles.eventStream}>
-            <div className={styles.eventStreamEvents}>
-                {stream.length > 0 ? stream : 'Generating...'}
-            </div>
+            {stream.length > 0 ? stream : 'Generating...'}
         </div>
     )
 }

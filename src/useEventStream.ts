@@ -11,10 +11,7 @@ function useEventStream<P>(url: string, parser: (event: P) => string) {
     useEffect(() => {
         if (sseChunk !== undefined) {
             setStream((curStream) => {
-                if (curStream.length % 500 === 0) {
-                    return curStream + '\n' + sseChunk;
-                }
-                return curStream + ' ' + sseChunk;
+                return curStream.concat(' ', sseChunk);
             })
         }
     }, [sseChunk]);
