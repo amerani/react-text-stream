@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { ReactEventStream, useEventStream } from './dist/ReactEventStream'
 import './dist/ReactEventStream.styles.css'
+import './terminal-styles.css'
 
 const HookEventStream: React.ComponentType = () => {
     const stream:any = useEventStream(
@@ -19,26 +20,32 @@ const HookEventStream: React.ComponentType = () => {
     )!;
 
     return (
-        <div>
-            {stream?.length > 0 ? String(stream) : 'Generating...'}
+        <div className="terminal-window">
+            {stream?.length > 0 ? String(stream) : (
+                <span className="terminal-generating">Generating...</span>
+            )}
         </div>
     )
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-    <> 
-        <section>
-            <h1>ReactEventStream Component</h1>
+    <div className="terminal-page">
+        <section className="terminal-section">
+            <h1 className="terminal-header">ReactEventStream Component</h1>
             <ReactEventStream 
                 url="http://localhost:3001/sse" 
                 onEvent={(event) => event.type === 'completed' ? undefined : `${event.word ?? ''} `}
-                render={(stream) => (<div>{stream}</div>)}
+                render={(stream) => (
+                    <div className="terminal-window">
+                        {stream}
+                    </div>
+                )}
             />
         </section>
-        <section>
-            <h1>useEventStream() Hook</h1>
+        <section className="terminal-section">
+            <h1 className="terminal-header">useEventStream() Hook</h1>
             <HookEventStream />
         </section>
-    </>
+    </div>
 )

@@ -1,0 +1,55 @@
+/* Terminal Styles with Solarized Color Scheme */
+
+/* Page-level styling */
+.terminal-page {
+    background-color: #073642; /* Solarized base02 */
+    color: #93a1a1; /* Solarized base1 */
+    font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Section styling */
+.terminal-section {
+    margin-bottom: 40px;
+}
+
+/* Header styling */
+.terminal-header {
+    color: #268bd2; /* Solarized blue */
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: normal;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Terminal window styling */
+.terminal-window {
+    font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #002b36; /* Solarized base03 (dark background) */
+    color: #839496; /* Solarized base0 (light text) */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #586e75; /* Solarized base01 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-height: 200px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Generating text styling */
+.terminal-generating {
+    color: #b58900; /* Solarized yellow */
+}

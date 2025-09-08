@@ -3,9 +3,5 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: auto;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
     overflow-wrap: anywhere;
 }
