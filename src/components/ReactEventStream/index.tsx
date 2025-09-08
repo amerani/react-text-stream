@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './style.module.css';
 import useEventStream from '../../useEventStream';
 
@@ -13,15 +13,16 @@ interface EventData {
 const ReactEventStream: React.ComponentType = () => {
     const stream = useEventStream(
         'http://localhost:3001/sse', 
-        (event: EventData): string|undefined => {
-            if (event.type === 'chunk') {
-                return `${event.word} `;
+        useCallback((event: EventData): string|undefined => {
+            switch (event.type) {
+                case 'chunk':
+                    return `${event.word} `;
+                case 'completed':
+                    return undefined;
+                default:
+                    return '';
             }
-            if (event.type === 'completed') {
-                return undefined;
-            }
-            return '';
-        }
+        }, []),
     )!;
 
     return (

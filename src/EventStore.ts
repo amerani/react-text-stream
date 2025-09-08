@@ -1,4 +1,4 @@
-export function EventStore<P,R>(url: string, parser: (event: P) => R|undefined) {
+export function EventStore<P,R>(url: string, onEvent: (event: P) => R|undefined) {
     let retryCount = 0;
     let currentData: R|undefined;
     const listeners = new Set();
@@ -16,7 +16,7 @@ export function EventStore<P,R>(url: string, parser: (event: P) => R|undefined) 
 
     eventSource.onmessage = (event: MessageEvent) => {
       const newData = JSON.parse(event.data) as P;
-      const parsedData = parser(newData);
+      const parsedData = onEvent(newData);
       if (parsedData === undefined) {
         currentData = undefined;
         retryCount = 0;
