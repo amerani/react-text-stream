@@ -23,7 +23,7 @@ try {
 }
 
 // Split text into words
-const words = loremText.split(/\s+/).filter(word => word.length > 0);
+const words = loremText.split(/\s+/).filter(word => word.length > 0).slice(0, 100);
 
 // SSE endpoint
 app.get('/sse', (req, res) => {
@@ -44,8 +44,20 @@ app.get('/sse', (req, res) => {
   let wordIndex = 0;
   const sendInterval = setInterval(() => {
     if (wordIndex >= words.length) {
-      // Reset to beginning for continuous streaming
-      wordIndex = 0;
+      // Send completion event and close connection
+      const completionChunk = {
+        type: 'completed',
+        message: 'All words have been sent',
+        totalWords: words.length,
+        timestamp: new Date().toISOString()
+      };
+      
+      res.write(`data: ${JSON.stringify(completionChunk)}\n\n`);
+      console.log(`Stream completed: sent all ${words.length} words`);
+      
+      clearInterval(sendInterval);
+      res.end();
+      return;
     }
 
     const word = words[wordIndex];

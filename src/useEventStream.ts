@@ -6,7 +6,7 @@ interface Streamable {
     length: number;
 }
 
-function useEventStream<P>(url: string, parser: (event: P) => Streamable) {
+function useEventStream<P>(url: string, parser: (event: P) => Streamable|undefined) {
     const eventStore = useMemo(() => EventStore<P,Streamable>(url, parser), [url]);
 
     const [stream, setStream] = useState<Streamable>();   

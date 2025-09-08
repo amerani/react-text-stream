@@ -17,7 +17,13 @@ export function EventStore<P,R>(url: string, parser: (event: P) => R|undefined) 
     eventSource.onmessage = (event: MessageEvent) => {
       const newData = JSON.parse(event.data) as P;
       const parsedData = parser(newData);
-      if (parsedData) {
+      if (parsedData === undefined) {
+        currentData = undefined;
+        retryCount = 0;
+        eventSource.close();
+        return;
+      }
+      else if (parsedData) {
         currentData = parsedData;  
         listeners.forEach((listener: any) => listener());
       }

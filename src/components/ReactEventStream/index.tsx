@@ -11,7 +11,18 @@ interface EventData {
   timestamp: string;
 }
 const ReactEventStream: React.ComponentType = () => {
-    const stream = useEventStream('http://localhost:3001/sse', (event: EventData) => event.word)!;
+    const stream = useEventStream(
+        'http://localhost:3001/sse', 
+        (event: EventData): string|undefined => {
+            if (event.type === 'chunk') {
+                return `${event.word} `;
+            }
+            if (event.type === 'completed') {
+                return undefined;
+            }
+            return '';
+        }
+    )!;
 
     return (
         <div className={styles.eventStream}>
