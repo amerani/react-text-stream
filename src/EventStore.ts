@@ -1,6 +1,6 @@
-export function EventStore(url: string) {
+export function EventStore<P,R>(url: string, parser: (event: P) => R|undefined) {
     let retryCount = 0;
-    let currentData: any = '';
+    let currentData: R|undefined;
     const listeners = new Set();
 
     function subscribe(callback: () => void) {
@@ -14,10 +14,11 @@ export function EventStore(url: string) {
 
     const eventSource = new EventSource(url)
 
-    eventSource.onmessage = (event: any) => {
-      const newData = JSON.parse(event.data);
-      if (newData.type === 'chunk') {
-        currentData = newData.word;  
+    eventSource.onmessage = (event: MessageEvent) => {
+      const newData = JSON.parse(event.data) as P;
+      const parsedData = parser(newData);
+      if (parsedData) {
+        currentData = parsedData;  
         listeners.forEach((listener: any) => listener());
       }
     };
