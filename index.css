@@ -1,5 +1,8 @@
 /* Terminal Styles with Solarized Color Scheme */
 
+* {
+    margin: 0;
+}
 /* Page-level styling */
 .terminal-page {
     background-color: #073642; /* Solarized base02 */
@@ -8,9 +11,9 @@
     min-height: 100vh;
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 /* Section styling */
@@ -46,10 +49,33 @@
     overflow: auto;
     position: relative;
     max-width: 600px;
+    min-width: 400px;
     margin: 0 auto;
+}
+
+button {
+    background-color: #b58900; /* Solarized yellow */
+    color: lightblue;
+    border: 1px solid white;
+    padding: 10px;
+    box-shadow: lightblue;
+}
+
+header {
+    display: flex;
 }
 
 /* Generating text styling */
 .terminal-generating {
     color: #b58900; /* Solarized yellow */
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
