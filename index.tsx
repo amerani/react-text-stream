@@ -1,4 +1,4 @@
-import React, { useCallback, useId, useState } from 'react'
+import React, { useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { ReactEventStream, useEventStream } from './dist/ReactEventStream'
 import './index.css'

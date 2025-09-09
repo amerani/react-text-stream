@@ -54,13 +54,13 @@ function App() {
 For complex rendering scenarios, use the `useEventStream` hook:
 
 ```tsx
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useEventStream } from 'react-event-stream'
 
 function CustomStreamComponent() {
   const stream = useEventStream(
     'http://localhost:3001/sse', 
-    useCallback((event: { type: string, word: string }): string|undefined => {
+    (event: { type: string, word: string }): string|undefined => {
       switch (event.type) {
         case 'chunk':
           return `${event.word} `;
@@ -69,7 +69,7 @@ function CustomStreamComponent() {
         default:
           return '';
       }
-    }, []),
+    },
   )!;
 
   return (
@@ -164,9 +164,9 @@ interface CustomEvent {
 
 const stream = useEventStream<CustomEvent>(
   'http://localhost:3001/sse',
-  useCallback((event: CustomEvent): string|undefined => {
+  (event: CustomEvent): string|undefined => {
     // Handle typed events
-  }, [])
+  })
 );
 ```
 

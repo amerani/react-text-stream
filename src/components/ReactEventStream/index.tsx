@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import useEventStream from '../../useEventStream';
 
 interface ReactEventStreamProps<T> {
@@ -14,7 +14,7 @@ function ReactEventStream<T>({
 }: ReactEventStreamProps<T>) {
     const stream = useEventStream<T>(
         url, 
-        useCallback(onEvent, [onEvent]),
+        onEvent
     )!;
 
     return render(stream);
