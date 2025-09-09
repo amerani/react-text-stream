@@ -1,11 +1,11 @@
-# React Event Stream
+# React (Text) Event Stream
 
 A React library for streaming text using Server-Sent Events (SSE) with `text/event-stream`. This library provides both a React component and a custom hook for handling real-time text streaming.
 
 ## Installation
 
 ```bash
-npm install react-event-stream
+npm install react-text-stream
 ```
 
 ## Features
