@@ -2,6 +2,10 @@
 
 A React library for streaming text using Server-Sent Events (SSE) with `text/event-stream`. This library provides both a React component and a custom hook for handling real-time text streaming.
 
+## Demo
+
+![Demo of rendering text event stream](./demo.gif)
+
 ## Installation
 
 ```bash
@@ -17,10 +21,6 @@ npm install react-text-stream
 - 🔄 **Auto-retry**: Automatic reconnection with retry logic
 - 📦 **TypeScript**: Full TypeScript support
 - 🎨 **Customizable**: Flexible rendering and event handling
-
-## Demo
-
-![Demo of rendering text event stream](./demo.gif)
 
 ## Usage
 
