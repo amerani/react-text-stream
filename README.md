@@ -1,4 +1,4 @@
-# React (Text) Event Stream
+# React Text Stream
 
 A React library for streaming text using Server-Sent Events (SSE) with `text/event-stream`. This library provides both a React component and a custom hook for handling real-time text streaming.
 
@@ -30,7 +30,7 @@ The `ReactEventStream` component provides a simple way to display streaming text
 
 ```tsx
 import React from 'react'
-import { ReactEventStream } from 'react-event-stream'
+import { ReactEventStream } from 'react-text-stream'
 
 function App() {
   return (
@@ -55,7 +55,7 @@ For complex rendering scenarios, use the `useEventStream` hook:
 
 ```tsx
 import React from 'react'
-import { useEventStream } from 'react-event-stream'
+import { useEventStream } from 'react-text-stream'
 
 function CustomStreamComponent() {
   const stream = useEventStream(
