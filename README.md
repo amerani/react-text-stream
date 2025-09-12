@@ -14,8 +14,8 @@ npm install react-text-stream
 
 ## Features
 
-- 🚀 **React Component**: Exports an easy-to-use `ReactEventStream` component
-- 🎣 **Custom Hook**: Exports a custom `useEventStream` hook for complex use-cases
+- 🚀 **React Component**: Exports an easy-to-use `ReactTextStream` component
+- 🎣 **Custom Hook**: Exports a custom `useTextStream` hook for complex use-cases
 - ⚛️ **React Hooks**: Built with native hooks like `useSyncExternalStore` for optimal rendering performance
 - 📡 **Server-Sent Events**: Built on native [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) Web API
 - 🔄 **Auto-retry**: Automatic reconnection with retry logic
@@ -24,17 +24,17 @@ npm install react-text-stream
 
 ## Usage
 
-### ReactEventStream Component
+### ReactTextStream Component
 
-The `ReactEventStream` component provides a simple way to display streaming text:
+The `ReactTextStream` component provides a simple way to display streaming text:
 
 ```tsx
 import React from 'react'
-import { ReactEventStream } from 'react-text-stream'
+import { ReactTextStream } from 'react-text-stream'
 
 function App() {
   return (
-    <ReactEventStream 
+    <ReactTextStream 
       url="http://localhost:3001/sse" 
       onEvent={(event) => event.type === 'completed' ? undefined : `${event.word ?? ''} `}
       render={(stream) => (<div>{stream}</div>)}
@@ -49,16 +49,16 @@ function App() {
 - `onEvent` (function): Event handler that processes incoming events and returns a string or undefined. Caution: A return value of undefined will close the keep-alive connection and terminate the event stream. 
 - `render` (function): Render function that receives the accumulated stream and returns React element
 
-### useEventStream Hook
+### useTextStream Hook
 
-For complex rendering scenarios, use the `useEventStream` hook:
+For complex rendering scenarios, use the `useTextStream` hook:
 
 ```tsx
 import React from 'react'
-import { useEventStream } from 'react-text-stream'
+import { useTextStream } from 'react-text-stream'
 
 function CustomStreamComponent() {
-  const stream = useEventStream(
+  const stream = useTextStream(
     'http://localhost:3001/sse', 
     (event: { type: string, word: string }): string|undefined => {
       switch (event.type) {
@@ -162,7 +162,7 @@ interface CustomEvent {
   metadata?: any;
 }
 
-const stream = useEventStream<CustomEvent>(
+const stream = useTextStream<CustomEvent>(
   'http://localhost:3001/sse',
   (event: CustomEvent): string|undefined => {
     // Handle typed events

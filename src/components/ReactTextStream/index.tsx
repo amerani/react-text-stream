@@ -1,18 +1,18 @@
 import React from 'react';
-import useEventStream from '../../useEventStream';
+import useTextStream from '../../hooks/useTextStream';
 
-interface ReactEventStreamProps<T> {
+interface ReactTextStreamProps<T> {
     url: string;
     onEvent: (event: T) => string|undefined;
     render: (stream: string) => React.ReactNode;
 }
 
-function ReactEventStream<T>({ 
+function ReactTextStream<T>({ 
     url, 
     onEvent, 
     render 
-}: ReactEventStreamProps<T>) {
-    const stream = useEventStream<T>(
+}: ReactTextStreamProps<T>) {
+    const stream = useTextStream<T>(
         url, 
         onEvent
     )!;
@@ -20,4 +20,4 @@ function ReactEventStream<T>({
     return render(stream);
 }
 
-export default ReactEventStream;
+export default ReactTextStream;

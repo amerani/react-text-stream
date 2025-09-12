@@ -1,7 +1,7 @@
 import { useState, useSyncExternalStore, useEffect, useMemo } from 'react';
-import { EventStore } from './EventStore';
+import { EventStore } from '../EventStore';
 
-function useEventStream<P>(url: string, onEvent: (event: P) => string|undefined) {
+function useTextStream<P>(url: string, onEvent: (event: P) => string|undefined) {
     const eventStore = useMemo(() => EventStore<P,string>(url, onEvent), [url]);
 
     const [stream, setStream] = useState<string>();   
@@ -22,4 +22,4 @@ function useEventStream<P>(url: string, onEvent: (event: P) => string|undefined)
     return stream;
 }
 
-export default useEventStream;
+export default useTextStream;

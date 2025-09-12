@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
-import { ReactEventStream, useEventStream } from './dist/ReactEventStream'
+import { ReactTextStream, useTextStream } from './dist/ReactTextStream'
 import './index.css'
 
 const config = {
@@ -37,23 +37,23 @@ function Streams({ onEvent }) {
     return (
         <>
             <section className="terminal-section">
-                <h1 className="terminal-header">ReactEventStream Component</h1>
-                <ReactEventStream 
+                <h1 className="terminal-header">ReactTextStream Component</h1>
+                <ReactTextStream 
                     url={config.url} 
                     onEvent={onEvent}
                     render={(stream) => <div className="terminal-window">{stream}</div>}
                 />
             </section>
             <section className="terminal-section">
-                <h1 className="terminal-header">useEventStream() Hook</h1>
-                <HookEventStream />
+                <h1 className="terminal-header">useTextStream() Hook</h1>
+                <HookTextStream />
             </section>        
         </>        
     )
 }
 
-function HookEventStream() {
-    const stream:any = useEventStream(config.url, config.onEvent);
+function HookTextStream() {
+    const stream:any = useTextStream(config.url, config.onEvent);
     return (
         <div className="terminal-window">
             {stream?.length > 0 ? String(stream) : (

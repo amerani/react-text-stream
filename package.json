@@ -6,12 +6,12 @@
   "files": [
     "dist"
   ],
-  "main": "dist/ReactEventStream.umd.cjs",
-  "module": "dist/ReactEventStream.js",
+  "main": "dist/ReactTextStream.umd.cjs",
+  "module": "dist/ReactTextStream.js",
   "exports": {
     ".": {
-      "import": "./dist/ReactEventStream.js",
-      "require": "./dist/ReactEventStream.umd.cjs"
+      "import": "./dist/ReactTextStream.js",
+      "require": "./dist/ReactTextStream.umd.cjs"
     }
   },
   "scripts": {

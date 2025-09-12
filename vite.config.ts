@@ -20,9 +20,9 @@ export default defineConfig({
     build: {
         lib: {
             entry: resolve(__dirname, 'src/index.ts'),
-            name: 'react-event-stream',
-            fileName: 'ReactEventStream',
-            cssFileName: 'ReactEventStream.styles',
+            name: 'react-text-stream',
+            fileName: 'ReactTextStream',
+            cssFileName: 'ReactTextStream.styles',
             formats: ['es', 'cjs', 'umd'],
         },
         rollupOptions: {
