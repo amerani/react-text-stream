@@ -78,7 +78,7 @@ describe('Integration Tests', () => {
     global.EventSource = vi.fn().mockImplementation((url: string) => {
       mockEventSource.url = url;
       return mockEventSource;
-    });
+    }) as any;
   });
 
   afterEach(() => {

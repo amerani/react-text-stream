@@ -45,7 +45,7 @@ describe('EventStore', () => {
         }
       }, 0);
       return mockEventSource;
-    });
+    }) as any;
     
     // Clear all mocks before each test
     vi.clearAllMocks();
