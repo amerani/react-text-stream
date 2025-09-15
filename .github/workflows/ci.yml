@@ -1,0 +1,17 @@
+name: Default Workflow
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  ci:
+    uses: amerani/cicd/.github/workflows/ci-npm.yml@main
+    secrets: inherit
+    with:
+      test: echo "no tests"
