@@ -1,5 +1,11 @@
 # react-text-stream
 
+## 0.2.2
+
+### Patch Changes
+
+- unit tests
+
 ## 0.2.1
 
 ### Patch Changes

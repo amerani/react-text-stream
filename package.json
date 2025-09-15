@@ -1,6 +1,6 @@
 {
   "name": "react-text-stream",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A React component for streaming text using text/event-stream",
   "type": "module",
   "files": [
