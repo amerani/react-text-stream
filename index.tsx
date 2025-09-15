@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
-import { ReactTextStream, useTextStream } from './dist/ReactTextStream'
+import { ReactTextStream, useTextStream } from './dist/index'
 import './index.css'
 
 const config = {
