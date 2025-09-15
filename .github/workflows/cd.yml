@@ -14,5 +14,5 @@ jobs:
     uses: amerani/cicd/.github/workflows/cd-npm.yml@main   
     secrets: inherit
     with:
-      test: echo "no tests"
+      test: npm run test:ci
       publish: npm run release

@@ -16,7 +16,7 @@
     "watch:src": "vite build --watch",
     "watch:dist": "nodemon -w dist --exec 'vite'",
     "test": "vitest --config vitest.config.ts",
-    "test:run": "vitest run --config vitest.config.ts",
+    "test:ci": "vitest run --config vitest.config.ts",
     "test:coverage": "vitest run --coverage --config vitest.config.ts",
     "test:ui": "vitest --ui --config vitest.config.ts",
     "version": "changeset && changeset version",
