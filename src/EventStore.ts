@@ -23,7 +23,7 @@ export function EventStore<P,R>(url: string, onEvent: (event: P) => R|undefined)
         eventSource.close();
         return;
       }
-      else if (parsedData) {
+      else {
         currentData = parsedData;  
         listeners.forEach((listener: any) => listener());
       }

@@ -15,6 +15,10 @@
     "dev": "npm-run-all --parallel --print-label watch:**",
     "watch:src": "vite build --watch",
     "watch:dist": "nodemon -w dist --exec 'vite'",
+    "test": "vitest --config vitest.config.ts",
+    "test:ci": "vitest run --config vitest.config.ts",
+    "test:coverage": "vitest run --coverage --config vitest.config.ts",
+    "test:ui": "vitest --ui --config vitest.config.ts",
     "version": "changeset && changeset version",
     "release": "changeset publish"
   },
@@ -34,11 +38,17 @@
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@changesets/cli": "^2.29.7",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
+    "@vitest/ui": "^3.2.4",
     "amvite": "0.0.3",
+    "happy-dom": "^18.0.1",
+    "jsdom": "^27.0.0",
     "glob": "^11.0.3",
     "nodemon": "^3.1.10",
     "npm-run-all": "^4.1.5",
