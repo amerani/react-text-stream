@@ -13,21 +13,36 @@
     "build": "vite build",
     "dev": "npm-run-all --parallel --print-label watch:**",
     "watch:src": "vite build --watch",
-    "watch:dist": "nodemon -w dist --exec 'vite'"
+    "watch:dist": "nodemon -w dist --exec 'vite'",
+    "version": "changeset && changeset version",
+    "release": "changeset publish"
   },
   "author": "Alek Merani",
   "license": "MIT",
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amerani/react-text-stream.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "provenance": true
+  },
+  "peerDependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.7",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "amvite": "0.0.3",
+    "glob": "^11.0.3",
     "nodemon": "^3.1.10",
     "npm-run-all": "^4.1.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "unplugin-dts": "^1.0.0-beta.6",
     "vite": "^7.1.4",
     "vitest": "^3.2.4"
