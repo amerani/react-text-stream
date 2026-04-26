@@ -15,6 +15,27 @@ From the repo root:
 npm install
 ```
 
+## Useful npm scripts (recommended)
+
+Run these from the repo root (they’re defined in the root `package.json`):
+
+```bash
+# one command: install demo deps, build, then run server+client in parallel
+npm run demo
+
+# if you only need pieces
+npm run demo:install
+npm run demo:server
+npm run demo:client
+
+# library build + tests
+npm run build
+npm run test
+npm run test:ci
+npm run test:coverage
+npm run test:ui
+```
+
 ## Running the demo (manual verification)
 
 The demo is split into two apps:

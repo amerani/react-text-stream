@@ -16,7 +16,6 @@ root.render(<App />)
 function App() {
   const [eventType, setEventType] = useState('')
   const [id, setId] = useState(Number.MAX_SAFE_INTEGER)
-  const [message, setMessage] = useState('hello from client')
   const onEvent = (event: { type: string; word: string }) => {
     setEventType(event.type)
     return config.onEvent(event)
@@ -30,29 +29,13 @@ function App() {
           <br />
           ({eventType === 'chunk' ? 'streaming' : eventType})
         </button>
-        <div style={{ marginTop: 12 }}>
-          <label>
-            HTTP message:{' '}
-            <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              style={{ width: 320 }}
-            />
-          </label>
-        </div>
       </header>
-      <Streams onEvent={onEvent} httpMessage={message} key={id} />
+      <Streams onEvent={onEvent} key={id} />
     </div>
   )
 }
 
-function Streams({
-  onEvent,
-  httpMessage,
-}: {
-  onEvent: (event: { type: string; word: string }) => string | undefined
-  httpMessage: string
-}) {
+function Streams({ onEvent }: { onEvent: (event: { type: string; word: string }) => string | undefined }) {
   return (
     <>
       <section className="terminal-section">
@@ -69,7 +52,7 @@ function Streams({
       </section>
       <section className="terminal-section">
         <h1 className="terminal-header">useTextStream() Hook (HTTP POST + event-stream)</h1>
-        <HookHttpTextStream message={httpMessage} />
+        <HookHttpTextStream />
       </section>
     </>
   )
@@ -86,7 +69,8 @@ function HookTextStream() {
   )
 }
 
-function HookHttpTextStream({ message }: { message: string }) {
+function HookHttpTextStream() {
+  const [message, setMessage] = useState('hello from client')
   const [submittedMessage, setSubmittedMessage] = useState<string | undefined>(undefined)
   const stream = useTextStream({
     url: config.httpUrl,
@@ -96,6 +80,16 @@ function HookHttpTextStream({ message }: { message: string }) {
   })
   return (
     <>
+      <div style={{ marginBottom: 12 }}>
+        <label>
+          HTTP message:{' '}
+          <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            style={{ width: 320 }}
+          />
+        </label>
+      </div>
       <div style={{ marginBottom: 12 }}>
         <button type="button" onClick={() => setSubmittedMessage(message)}>
           Start HTTP stream
