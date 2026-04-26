@@ -93,6 +93,70 @@ app.get('/sse', (req, res) => {
   });
 });
 
+// HTTP POST -> SSE response endpoint
+app.post('/http-stream', (req, res) => {
+  const { message } = (req.body ?? {}) as { message?: string };
+  console.log('New HTTP stream request', { message });
+
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Cache-Control',
+  });
+
+  res.write(
+    `data: ${JSON.stringify({
+      type: 'connected',
+      message: 'HTTP stream established',
+      requestMessage: message ?? '',
+    })}\n\n`,
+  );
+
+  let wordIndex = 0;
+  const sendInterval = setInterval(() => {
+    if (wordIndex >= words.length) {
+      const completionChunk = {
+        type: 'completed',
+        message: 'All words have been sent',
+        totalWords: words.length,
+        timestamp: new Date().toISOString(),
+      };
+
+      res.write(`data: ${JSON.stringify(completionChunk)}\n\n`);
+      console.log(`HTTP stream completed: sent all ${words.length} words`);
+
+      clearInterval(sendInterval);
+      res.end();
+      return;
+    }
+
+    const word = words[wordIndex];
+    const chunk = {
+      type: 'chunk',
+      word: word,
+      wordLength: word.length,
+      index: wordIndex,
+      totalWords: words.length,
+      timestamp: new Date().toISOString(),
+    };
+
+    res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+    wordIndex++;
+  }, 100);
+
+  req.on('close', () => {
+    console.log('HTTP stream connection closed');
+    clearInterval(sendInterval);
+  });
+
+  req.on('error', (error) => {
+    console.error('HTTP stream connection error:', error);
+    clearInterval(sendInterval);
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({
@@ -109,6 +173,7 @@ app.get('/', (req, res) => {
     message: 'SSE Test Server',
     endpoints: {
       '/sse': 'Server-Sent Events stream with lorem ipsum words',
+      '/http-stream': 'HTTP POST that responds with an event-stream',
       '/health': 'Health check endpoint'
     },
     stats: {
