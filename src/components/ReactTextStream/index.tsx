@@ -5,17 +5,23 @@ interface ReactTextStreamProps<T> {
     url: string;
     onEvent: (event: T) => string|undefined;
     render: (stream: string) => React.ReactNode;
+    store?: 'sse' | 'http';
+    data?: unknown;
+    fetchInit?: Omit<RequestInit, 'method' | 'body'>;
 }
 
 function ReactTextStream<T>({ 
     url, 
     onEvent, 
-    render 
+    render,
+    store,
+    data,
+    fetchInit,
 }: ReactTextStreamProps<T>) {
-    const stream = useTextStream<T>(
-        url, 
-        onEvent
-    )!;
+    const stream =
+        store !== undefined || data !== undefined || fetchInit !== undefined
+            ? useTextStream<T>({ url, onEvent, store, data, fetchInit })!
+            : useTextStream<T>(url, onEvent)!;
 
     return render(stream);
 }

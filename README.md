@@ -6,24 +6,6 @@ A React library for streaming text using Server-Sent Events (SSE) with `text/eve
 
 ![Demo of rendering text event stream](./demo.gif)
 
-### Run the demo locally
-
-From the repository root:
-
-```bash
-npm install
-npm run demo
-```
-
-This installs dependencies for [`demo/server`](./demo/server) and [`demo/client`](./demo/client), builds the library into `dist/`, then starts both in parallel: the SSE test server on [http://localhost:3001](http://localhost:3001) (endpoint `/sse`) and the Vite app (by default [http://localhost:5173](http://localhost:5173); Vite may open a browser automatically). The client loads `react-text-stream` via `file:../..`, matching how the published package resolves to `dist`.
-
-Other scripts:
-
-- **`npm run demo:server`** — SSE server only (`demo/server`, `npm run dev`).
-- **`npm run demo:client`** — Vite dev server only (`demo/client`). Run **`npm run build`** at the repo root first so `dist/` exists for the linked package.
-- **`npm run demo:install`** — install dependencies in both demo packages without starting servers.
-- **`npm run demo:verify`** — build the library and run a production build of the demo client (useful to confirm the package layout before publish).
-
 ## Installation
 
 ```bash
